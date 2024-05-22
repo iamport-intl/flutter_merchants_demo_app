@@ -18,7 +18,6 @@ import 'package:portone_flutter_package/dto/responses/without_tokenization_respo
 import 'package:flutter/material.dart';
 import 'package:flutter_merchants_demo_app/requests.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class PortOneApp extends StatefulWidget {
