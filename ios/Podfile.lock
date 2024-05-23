@@ -1,8 +1,8 @@
 PODS:
+  - app_links (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_custom_tabs (0.0.1):
-    - Flutter
-  - receive_sharing_intent (1.8.0):
     - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -15,21 +15,21 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - Flutter (from `Flutter`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
-  - receive_sharing_intent (from `.symlinks/plugins/receive_sharing_intent/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sodium_libs (from `.symlinks/plugins/sodium_libs/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   Flutter:
     :path: Flutter
   flutter_custom_tabs:
     :path: ".symlinks/plugins/flutter_custom_tabs/ios"
-  receive_sharing_intent:
-    :path: ".symlinks/plugins/receive_sharing_intent/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sodium_libs:
@@ -40,14 +40,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  app_links: e70ca16b4b0f88253b3b3660200d4a10b4ea9795
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_custom_tabs: f8aa300a93d869c0d117c8709a9af39cbd011adc
-  receive_sharing_intent: df9c334dc9feadcbd3266e5cb49c8443405e1c9f
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sodium_libs: 0486eb2c3172ce494406367d4b379042444b769d
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
-  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
+  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
-PODFILE CHECKSUM: 6a79174734d55f859c09e697fc09da2610ec04a9
+PODFILE CHECKSUM: afea214dc256c50378f06b9c05182772ccfac828
 
 COCOAPODS: 1.15.2

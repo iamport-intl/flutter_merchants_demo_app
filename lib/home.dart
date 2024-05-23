@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:app_links/app_links.dart';
 import 'package:portone_flutter_package/portone_services/portone_impl.dart';
 import 'package:portone_flutter_package/dto/responses/add_card_for_customer_response.dart';
 import 'package:portone_flutter_package/dto/responses/add_customer_response.dart';
@@ -17,8 +18,6 @@ import 'package:portone_flutter_package/dto/responses/with_tokenization_response
 import 'package:portone_flutter_package/dto/responses/without_tokenization_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_merchants_demo_app/requests.dart';
-import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-
 
 class PortOneApp extends StatefulWidget {
   const PortOneApp({super.key});
@@ -30,52 +29,47 @@ class PortOneApp extends StatefulWidget {
 class _PortOneAppState extends State<PortOneApp> {
   String environment = "sandbox";
   late PortOneImpl portone;
-  late StreamSubscription _intentData;
   String? paymentStatus;
   Requests requests = Requests();
+
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
 
   @override
   void initState() {
     super.initState();
-
-    portone = PortOneImpl(context, environment);
-
-    _intentData = ReceiveSharingIntent.instance.getMediaStream().listen(
-            (List<SharedMediaFile> value) {
-          print("Shared Media: $value");
-        }, onError: (err) {
-      print("getIntentDataStream error: $err");
-    });
+    initDeepLinks();
+    portone = PortOneImpl(context, environment, false, requests.devEnvironment);
 
     portone.setPaymentStatusListener(
         callback: (Map<String, dynamic> paymentStatus) {
-          final json = jsonEncode(paymentStatus);
-          print('CHAI_PaymentStatus-> $json');
-        });
+      final json = jsonEncode(paymentStatus);
+      print('CHAI_PaymentStatus-> $json');
+    });
     portone.setOtpListener(callback: (GetOtpResponse response) {
       final json = jsonEncode(response);
       print('CHAI_Response-> $response--> $json');
     });
     portone.setPaymentMethodsListener(
         callback: (PaymentMethodResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_Response-> $response--> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_Response-> $response--> $json');
+    });
     portone.setSavedCardsListener(
         callback: (CreditCardDetailsResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_Response-> $response--> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_Response-> $response--> $json');
+    });
     portone.setCheckoutWithTokenizationListener(
         callback: (WithTokenizationResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_Response-> $response--> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_Response-> $response--> $json');
+    });
     portone.setCheckoutWithoutTokenizationListener(
         callback: (WithoutTokenizationResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_Response-> $response--> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_Response-> $response--> $json');
+    });
     portone.setTokenCallBackListener(callback: (ChanexTokenResponse response) {
       final json = jsonEncode(response);
       print('CHAI_Response-> $response--> $json');
@@ -99,27 +93,27 @@ class _PortOneAppState extends State<PortOneApp> {
 
     portone.setGetCustomerDataListener(
         callback: (GetCustomerDataResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_GetCustomer-> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_GetCustomer-> $json');
+    });
 
     portone.setListCardsForCustomerListener(
         callback: (ListCardsForCustomerResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_ListCustomer-> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_ListCustomer-> $json');
+    });
 
     portone.setAddCardForCustomerListener(
         callback: (AddCardForCustomerResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_AddCard-> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_AddCard-> $json');
+    });
 
     portone.setDeleteCardForCustomerListener(
         callback: (GenericResponse response) {
-          final json = jsonEncode(response);
-          print('CHAI_DeleteCard-> $json');
-        });
+      final json = jsonEncode(response);
+      print('CHAI_DeleteCard-> $json');
+    });
 
     portone.setCaptureTransactionListener(callback: (GenericResponse response) {
       final json = jsonEncode(response);
@@ -132,9 +126,16 @@ class _PortOneAppState extends State<PortOneApp> {
     });
   }
 
+  Future<void> initDeepLinks() async {
+    _appLinks = AppLinks();
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      print('onAppLink: $uri');
+    });
+  }
+
   @override
   void dispose() {
-    _intentData.cancel();
+    _linkSubscription?.cancel();
     super.dispose();
   }
 
