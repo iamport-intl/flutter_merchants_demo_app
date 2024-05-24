@@ -342,7 +342,7 @@ packages:
       path: "/Users/aagamshah/trash_projects/portone-flutter-sdk"
       relative: false
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   shared_preferences:
     dependency: transitive
     description:

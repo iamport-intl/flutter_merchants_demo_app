@@ -39,7 +39,7 @@ class _PortOneAppState extends State<PortOneApp> {
   void initState() {
     super.initState();
     initDeepLinks();
-    portone = PortOneImpl(context, environment, false, requests.devEnvironment);
+    portone = PortOneImpl(context, environment);
 
     portone.setPaymentStatusListener(
         callback: (Map<String, dynamic> paymentStatus) {
