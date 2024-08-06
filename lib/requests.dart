@@ -22,7 +22,7 @@ class Requests {
       "6c8d964e7d472076eae7beb0a1f5b2b81c0afbb479307a211029ace597656957";
   final mobileNo = "+919913379694";
   final environment = SANDBOX;
-  final currency = "VND";
+  final currency = "THB";
   final paymentChannel = "MOMOPAY";
   final paymentMethod = "MOMOPAY_WALLET";
   final customerUUID = "c60005e1-164c-46fa-b7a1-fbee11543493";
@@ -35,7 +35,6 @@ class Requests {
   To generate a signature hash on the server side using a secret key that will be included in the payload.
   https://www.docs.portone.cloud/docs/integration_guide/signatures/payment_request
    */
-  SignatureHash hash = SignatureHash();
   JwtTokenGeneration jwt = JwtTokenGeneration();
   RandomStringsGeneration randomString = RandomStringsGeneration();
 
@@ -46,7 +45,7 @@ class Requests {
   WebCheckoutRequest getRequestBody() {
     String orderId = randomString.getRandomString(6);
     WebCheckoutRequest webCheckoutRequest = WebCheckoutRequest(
-        amount: 19010.2,
+        amount: 19010.23,
         billingDetails: BillingDetails(
             billingAddress: BillingAddress(
                 city: "VND",
@@ -79,7 +78,7 @@ class Requests {
         merchantOrderId: orderId,
         orderDetails: <OrderDetails>[
           OrderDetails(
-              id: "knb", name: "kim nguyen bao", price: 19010.2, quantity: 1)
+              id: "knb", name: "kim nguyen bao", price: 19010.23, quantity: 1)
         ],
         mobileRedirectUrl: "portone://checkout",
         shippingDetails: ShippingDetails(
@@ -96,18 +95,9 @@ class Requests {
             shippingPhone: "+848959893980"),
         showBackButton: true,
         showShippingDetails: true,
-        signatureHash: "",
         source: "mobile",
         successUrl: "https://dev-checkout.chaipay.io/success.html",
         environment: environment);
-
-    webCheckoutRequest.signatureHash = hash.getSignatureHash(
-        amount: webCheckoutRequest.amount.toString(),
-        currency: webCheckoutRequest.currency ?? "",
-        failureUrl: webCheckoutRequest.failureUrl ?? "",
-        orderId: webCheckoutRequest.merchantOrderId ?? "",
-        portoneKey: webCheckoutRequest.portOneKey ?? "",
-        successUrl: webCheckoutRequest.successUrl ?? "");
 
     return webCheckoutRequest;
   }
@@ -158,20 +148,11 @@ class Requests {
         pmtChannel: paymentChannel,
         pmtMethod: paymentMethod,
         redirectUrl: "portone://checkout",
-        signatureHash: "",
         source: "mobile",
         successUrl: "https://www.google.com",
         environment: environment,
         transactionType: transactionType,
         routingParams: RoutingParams(type: "failover", routeRef: null));
-
-    tokenizationRequest.signatureHash = hash.getSignatureHash(
-        amount: tokenizationRequest.amount.toString(),
-        currency: tokenizationRequest.currency ?? "",
-        failureUrl: tokenizationRequest.failureUrl ?? "",
-        orderId: tokenizationRequest.merchantOrderId ?? "",
-        portoneKey: tokenizationRequest.key ?? "",
-        successUrl: tokenizationRequest.successUrl ?? "");
 
     return tokenizationRequest;
   }
@@ -216,19 +197,10 @@ class Requests {
             shippingEmail: "markweins@gmail.com",
             shippingName: "Test mark",
             shippingPhone: mobileNo),
-        signatureHash: "",
         successUrl: "https://www.google.com",
         environment: environment,
         source: "mobile",
         transactionType: transactionType);
-
-    tokenizationRequest.signatureHash = hash.getSignatureHash(
-        amount: tokenizationRequest.amount.toString(),
-        currency: tokenizationRequest.currency ?? "",
-        failureUrl: tokenizationRequest.failureUrl ?? "",
-        orderId: tokenizationRequest.merchantOrderId ?? "",
-        portoneKey: tokenizationRequest.key ?? "",
-        successUrl: tokenizationRequest.successUrl ?? "");
 
     return tokenizationRequest;
   }
@@ -280,18 +252,9 @@ class Requests {
                 shippingEmail: "markweins@gmail.com",
                 shippingName: "Test mark",
                 shippingPhone: mobileNo),
-            signatureHash: "",
             successUrl: "https://www.google.com",
             environment: environment,
             transactionType: transactionType);
-
-    request.signatureHash = hash.getSignatureHash(
-        amount: request.amount.toString(),
-        currency: request.currency ?? "",
-        failureUrl: request.failureUrl ?? "",
-        orderId: request.merchantOrderId ?? "",
-        portoneKey: request.key ?? "",
-        successUrl: request.successUrl ?? "");
 
     return request;
   }
@@ -337,19 +300,10 @@ class Requests {
             shippingEmail: "markweins@gmail.com",
             shippingName: "Test mark",
             shippingPhone: mobileNo),
-        signatureHash: "",
         successUrl: "https://www.google.com",
         bankDetails: gbppBankDetails(),
         environment: environment,
         transactionType: transactionType);
-
-    request.signatureHash = hash.getSignatureHash(
-        amount: request.amount.toString(),
-        currency: request.currency ?? "",
-        failureUrl: request.failureUrl ?? "",
-        orderId: request.merchantOrderId ?? "",
-        portoneKey: request.key ?? "",
-        successUrl: request.successUrl ?? "");
 
     return request;
   }
