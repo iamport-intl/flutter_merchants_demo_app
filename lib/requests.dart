@@ -2,12 +2,12 @@ import 'package:portone_flutter_package/constants/constants.dart';
 import 'package:portone_flutter_package/dto/requests/bank_list_request.dart';
 import 'package:portone_flutter_package/dto/requests/billing_details.dart';
 import 'package:portone_flutter_package/dto/requests/chanex_token_request.dart';
+import 'package:portone_flutter_package/dto/requests/checkout_embed_request.dart';
 import 'package:portone_flutter_package/dto/requests/checkout_with_direct_bank_transfer_request.dart';
 import 'package:portone_flutter_package/dto/requests/checkout_with_installation_request.dart';
 import 'package:portone_flutter_package/dto/requests/merchant_details.dart';
 import 'package:portone_flutter_package/dto/requests/order_details.dart';
 import 'package:portone_flutter_package/dto/requests/shipping_details.dart';
-import 'package:portone_flutter_package/dto/requests/web_checkout_request.dart';
 import 'package:portone_flutter_package/dto/requests/with_tokenization_request.dart';
 import 'package:portone_flutter_package/dto/requests/without_tokenization_request.dart';
 
@@ -43,9 +43,9 @@ class Requests {
     return "Bearer ${jwt.getJWTToken()}";
   }
 
-  WebCheckoutRequest getRequestBody() {
+  CheckoutUsingEmbedRequest getCheckoutEmbedRequest() {
     String orderId = randomString.getRandomString(6);
-    WebCheckoutRequest webCheckoutRequest = WebCheckoutRequest(
+    CheckoutUsingEmbedRequest webCheckoutRequest = CheckoutUsingEmbedRequest(
         amount: 19010.2,
         billingDetails: BillingDetails(
             billingAddress: BillingAddress(

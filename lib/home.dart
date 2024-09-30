@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app_links/app_links.dart';
+import 'package:portone_flutter_package/dto/requests/add_customer_request.dart';
+import 'package:portone_flutter_package/dto/requests/delete_card_request.dart';
 import 'package:portone_flutter_package/portone_services/portone_impl.dart';
 import 'package:portone_flutter_package/dto/responses/add_card_for_customer_response.dart';
 import 'package:portone_flutter_package/dto/responses/add_customer_response.dart';
@@ -144,81 +146,167 @@ class _PortOneAppState extends State<PortOneApp> {
     return MaterialApp(
         title: 'PortOne',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              side: BorderSide.none,
+              backgroundColor: Colors.black12,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15), // Rounded corners
+              ),
+              shadowColor: Colors.white.withOpacity(0.6),
+              elevation: 5,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              textStyle: const TextStyle(color: Colors.white),
+            ),
+          ),
           useMaterial3: true,
         ),
         home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Center(child: Text('PortOne')),
+            backgroundColor: Colors.deepOrangeAccent,
+            title: const Center(
+                child: Text(
+              'PortOne',
+              style: TextStyle(color: Colors.white),
+            )),
           ),
-          body: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                  child: OutlinedButton(
-                      onPressed: () {
-                        // portone.getOTP(requests.mobileNo);
-                        portone.checkoutUsingWeb(requests.getJWTToken(),
-                            requests.portoneKey, requests.getRequestBody());
-                        // portone.getPaymentMethods(
-                        //     requests.portoneKey, requests.currency);
-                        // portone.getSavedCards("", requests.portoneKey,
-                        //     requests.mobileNo, "278058");
-                        // portone.checkoutWithTokenization(
-                        //     requests.getTokenizationRequest());
-                        // portone.checkoutWithoutTokenization(
-                        //     requests.getWithoutTokenizationRequest());
-                        // portone.checkoutUsingNewCard(
-                        //     requests.getTokenizationRequest(),
-                        //     requests.getChanexTokenRequest(),
-                        //     requests.getJWTToken());
-                        // portone.checkoutUsingDirectBankTransfer(requests
-                        //     .getCheckoutWithDirectBankTransferRequest());
-                        // portone.checkoutUsingInstallation(
-                        //     requests.getCheckoutWithInstallationRequest());
-                        // portone.getBankList(requests.paymentChannel,
-                        //     requests.getBankListRequest());
-                        // portone.getDBTDetails(requests.portoneKey);
-                        // portone.addCustomer(
-                        //     requests.getJWTToken(),
-                        //     requests.portoneKey,
-                        //     AddCustomerRequest(
-                        //         name: "Aagam",
-                        //         customerRef: "",
-                        //         emailAddress: "",
-                        //         phoneNumber: requests.mobileNo));
-                        // portone.getCustomer(requests.getJWTToken(), requests.portoneKey,
-                        //     requests.customerUUID);
-                        // portone.addCardForCustomer(
-                        //     requests.customerUUID,
-                        //     requests.getJWTToken(),
-                        //     requests.portoneKey,
-                        //     requests.getChanexTokenRequest());
-                        // portone.listCardsForCustomer(requests.customerUUID,
-                        //     requests.getJWTToken(), requests.portoneKey);
-                        // portone.deleteCardForCustomer(
-                        //     requests.customerUUID,
-                        //     requests.getJWTToken(),
-                        //     requests.portoneKey,
-                        //     DeleteCardRequest(
-                        //         token: "735eaf72a0a14965aced3e1f9a339b0b"));
-                        // portone.captureTransaction(
-                        //     "2SDCUiBEv34oqeIdEDv1pftGeeY",
-                        //     requests.getJWTToken(),
-                        //     requests.portoneKey);
-                        // portone.getRoutesList(
-                        //     requests.portoneKey, requests.getJWTToken());
-                      },
-                      child: const Text('Pay Now'))),
-              const SizedBox(height: 20.0),
-              Text(
-                paymentStatus.toString(),
-                style: const TextStyle(fontSize: 20),
-              ),
-            ],
+          body: Container(
+            color: Colors.black,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                        onPressed: () {
+                          portone.checkoutUsingEmbed(requests.getJWTToken(),
+                              requests.portoneKey, requests.getCheckoutEmbedRequest());
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Checkout \nEmbed',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        )),
+                    OutlinedButton(
+                        onPressed: () {
+                          portone.getOTP(requests.mobileNo);
+                          portone.getPaymentMethods(
+                              requests.portoneKey, requests.currency, null);
+                          portone.getSavedCards("", requests.portoneKey,
+                              requests.mobileNo, "278058");
+                          portone.checkoutWithTokenization(
+                              requests.getTokenizationRequest(), null);
+                          portone.checkoutWithoutTokenization(
+                              requests.getWithoutTokenizationRequest(), null);
+                          portone.checkoutUsingNewCard(
+                              requests.getTokenizationRequest(),
+                              requests.getChanexTokenRequest(),
+                              requests.getJWTToken());
+                          portone.checkoutUsingDirectBankTransfer(
+                              requests
+                                  .getCheckoutWithDirectBankTransferRequest(),
+                              null);
+                          portone.checkoutUsingInstallation(
+                              requests.getCheckoutWithInstallationRequest(),
+                              null);
+                          portone.getBankList(requests.paymentChannel,
+                              requests.getBankListRequest());
+                          portone.getDBTDetails(requests.portoneKey);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            'Checkout \nConnect',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                OutlinedButton(
+                    onPressed: () {
+                      portone.addCustomer(
+                          requests.getJWTToken(),
+                          requests.portoneKey,
+                          AddCustomerRequest(
+                              name: "Aagam",
+                              customerRef: "",
+                              emailAddress: "",
+                              phoneNumber: requests.mobileNo));
+                      portone.getCustomer(requests.getJWTToken(),
+                          requests.portoneKey, requests.customerUUID);
+                      portone.addCardForCustomer(
+                          requests.customerUUID,
+                          requests.getJWTToken(),
+                          requests.portoneKey,
+                          requests.getChanexTokenRequest(),
+                          null);
+                      portone.listCardsForCustomer(requests.customerUUID,
+                          requests.getJWTToken(), requests.portoneKey);
+                      portone.deleteCardForCustomer(
+                          requests.customerUUID,
+                          requests.getJWTToken(),
+                          requests.portoneKey,
+                          DeleteCardRequest(
+                              token: "735eaf72a0a14965aced3e1f9a339b0b"));
+                      portone.captureTransaction("2SDCUiBEv34oqeIdEDv1pftGeeY",
+                          requests.getJWTToken(), requests.portoneKey);
+                      portone.getRoutesList(
+                          requests.portoneKey, requests.getJWTToken());
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Additional \nMethods',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                    )),
+                const SizedBox(height: 20.0),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.2), // Shadow color
+                        spreadRadius: 2, // How much the shadow spreads
+                        blurRadius: 5, // The blur radius
+                        offset: Offset(0, 3), // Offset in x and y direction (horizontal, vertical)
+                      ),
+                    ],
+                    shape: BoxShape
+                        .rectangle, // Set the shape to rectangle (default)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          paymentStatus ??
+                              "Payment Status to be displayed here. ",
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.white70),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
